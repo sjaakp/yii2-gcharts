@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 29-10-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 29-10-2015... 17-09-2017.
  *
  * Google Charts widget for Yii 2.0 framework
  * @link https://developers.google.com/chart/
@@ -12,8 +12,6 @@ namespace sjaakp\gcharts;
 
 
 class LineChart extends Chart    {
-
-    public $packages = [ 'line' ];
 
     public function init()  {
         parent::init();
@@ -33,8 +31,9 @@ class LineChart extends Chart    {
             if ($this->mode == 'transition') $jOpts = "google.charts.Line.convertOptions($jOpts)";
             $call = "var $id=new google.charts.Line(document.getElementById('$id'));$id.draw($dataTable,$jOpts);";
         }
-        $this->packages = [$package];
 
-        $this->getView()->registerJs($call);
+        $this->loadPackages($package);
+
+        $this->drawChart($call);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 29-10-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 29-10-2015... 17-09-2017.
  *
  * Google Charts widget for Yii 2.0 framework
  * @link https://developers.google.com/chart/
@@ -22,6 +22,15 @@ use yii\web\View;
 use yii\web\JsExpression;
 
 class Chart extends Widget  {
+
+    /**
+     * @var string
+     * 'current'
+     * 'upcoming'
+     * number
+     * @link https://developers.google.com/chart/interactive/docs/basic_load_libs#load-version-name-or-number
+     */
+    public $version = 'current';
 
     /**
      * @var string
@@ -61,9 +70,11 @@ class Chart extends Widget  {
      */
     public $htmlOptions = [];
 
-    protected $packages = [];
+    protected static $loadOptions = [
+        'packages' => [],
+    ];
 
-    protected static $packagesLoaded = [];
+    protected static $jsLoaded = '';
 
     public function init()  {
         if (is_null($this->dataProvider)) {
@@ -91,35 +102,43 @@ class Chart extends Widget  {
             }
             return $v;
         }, $this->columns);
+
+        $view = $this->getView();
+
+        $view->registerJsFile('//www.gstatic.com/charts/loader.js');
     }
 
     public function run()   {
         $view = $this->getView();
 
-        self::$packagesLoaded = array_merge(self::$packagesLoaded, array_diff($this->packages, self::$packagesLoaded));
-
-        $autoLoad = [
-            'modules' => [
-                [
-                    'name' => 'visualization',
-                    'version' => 1,
-                    'packages' => self::$packagesLoaded
-                ]
-            ],
+        $lo = array_merge(self::$loadOptions, [
+            'callback' => new JsExpression('drawChart'),
             'language' => Yii::$app->language
-        ];
+        ]);
 
-        $url = 'https://www.google.com/jsapi?autoload=' . Json::htmlEncode($autoLoad);
+        $loadOpts = Json::encode($lo);
+        $allJs = self::$jsLoaded;
 
-        // register for HEAD and with fixed key (__NAMESPACE__) so only newest remains
-        // can't use View::registerJsFile, because it HTML-encodes the URL
-        $view->jsFiles[View::POS_END][__NAMESPACE__] = "<script src='$url'></script>";
-
-        foreach ($this->events as $evt => $code) {
-            $view->registerJs("google.visualization.events.addListener($this->id,'$evt',$code);");
-        }
+        $view->registerJs("google.charts.load('{$this->version}',$loadOpts);function drawChart(){{$allJs}};",
+            View::POS_END, __NAMESPACE__);
 
         echo Html::tag('div', '', $this->htmlOptions);
+    }
+
+    protected function loadPackages($packs)  {
+        if (is_string($packs)) $packs = [$packs];
+        $loaded = &self::$loadOptions['packages'];
+        foreach ($packs as $pack)   {
+            if (! in_array($pack, $loaded)) $loaded[] = $pack;
+        }
+    }
+
+    protected function drawChart($js)   {
+        foreach ($this->events as $evt => $code) {
+            $js .= "google.visualization.events.addListener($this->id,'$evt',$code);";
+        }
+
+        self::$jsLoaded .= $js;
     }
 
     protected function dataTable() {

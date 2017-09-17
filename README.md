@@ -128,3 +128,17 @@ The `string` shortcut configuration specifies the attribute, type, and label in 
 **Notice** that only a few of the charts are currently available in Material version and that they're in early beta, lacking lots of the 'classic' options.
 
 **Notice also** that currently, the Material options are undocumented, so the only practical way to work with Material charts is using the `"transition"` mode.
+
+### version ###
+
+`string` The version of the **gcharts** library used. Must be one of:
+
+ - `"current"` (default),
+ - `"upcoming"`,
+ - `number`
+
+[More](https://developers.google.com/chart/interactive/docs/basic_load_libs#load-version-name-or-number) information.
+
+### mapsApiKey ###
+
+`string` Applies to **GeoChart** only. It is advised to provide **GeoChart** with an [API-key](https://developers.google.com/chart/interactive/docs/gallery/geochart#loading) of Google Maps.

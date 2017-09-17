@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 29-10-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 29-10-2015... 17-09-2017.
  *
  * Google Charts widget for Yii 2.0 framework
  * @link https://developers.google.com/chart/
@@ -31,8 +31,9 @@ class ColumnChart extends Chart    {
             if ($this->mode == 'transition') $jOpts = "google.charts.Bar.convertOptions($jOpts)";
             $call = "var $id=new google.charts.Bar(document.getElementById('$id'));$id.draw($dataTable,$jOpts);";
         }
-        $this->packages = [$package];
 
-        $this->getView()->registerJs($call);
+        $this->loadPackages($package);
+
+        $this->drawChart($call);
     }
 }
