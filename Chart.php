@@ -214,7 +214,7 @@ class Chart extends Widget  {
     }
 
     protected function colAttribute($col)  {
-        return ArrayHelper::getValue($col, 'attribute');
+        return ArrayHelper::getValue($col, 'attribute', '');
     }
 
     protected function colType($col)  {

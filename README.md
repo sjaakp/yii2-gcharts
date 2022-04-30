@@ -3,6 +3,10 @@ yii2-gcharts
 
 #### Google Charts the Yii 2.0 way ####
 
+[![Latest Stable Version](https://poser.pugx.org/sjaakp/yii2-gcharts/v/stable)](https://packagist.org/packages/sjaakp/yii2-gcharts)
+[![Total Downloads](https://poser.pugx.org/sjaakp/yii2-gcharts/downloads)](https://packagist.org/packages/sjaakp/yii2-gcharts)
+[![License](https://poser.pugx.org/sjaakp/yii2-gcharts/license)](https://packagist.org/packages/sjaakp/yii2-gcharts)
+
 **yii2-gcharts** is a collection of widgets to render selected [Google Charts](https://developers.google.com/chart/ "Google Developers") in the [Yii 2.0](http://www.yiiframework.com/ "Yii") PHP Framework, like you would use a [GridView](http://www.yiiframework.com/doc-2.0/yii-grid-gridview.html "Yii").
 
 Currently, **yii2-gcharts** consists of the following widgets:
