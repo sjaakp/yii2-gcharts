@@ -24,12 +24,12 @@ class LineChart extends Chart    {
 
         if ($this->mode == 'classic') {
             $package = 'corechart';
-            $call = "var $id=new google.visualization.LineChart(document.getElementById('$id'));$id.draw($dataTable,$jOpts);";
+            $call = "var $id=new google.visualization.LineChart(document.getElementById('$id')); $id.draw($dataTable,$jOpts); $(window).resize(function(){ $id.draw($dataTable,$jOpts); });";
         }
         else    {
             $package = 'line';
             if ($this->mode == 'transition') $jOpts = "google.charts.Line.convertOptions($jOpts)";
-            $call = "var $id=new google.charts.Line(document.getElementById('$id'));$id.draw($dataTable,$jOpts);";
+            $call = "var $id=new google.charts.Line(document.getElementById('$id')); $id.draw($dataTable,$jOpts); $(window).resize(function(){ $id.draw($dataTable,$jOpts); });";
         }
 
         $this->loadPackages($package);
